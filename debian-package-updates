@@ -1,0 +1,37 @@
+import subprocess
+import requests 
+
+# Verifying Internet Connectivity
+
+print('\nVerifying Internet Connectivity: ')
+
+def my_ping():
+    hosts = ['1.1.1.1', '4.4.2.2', '8.8.8.8'] #These are well-known public DNS servers.
+
+    for host in hosts:
+        result = subprocess.run(['ping', host,'-s', '32', '-i', '0.5', '-n', '-q', '-c', '1'], stdout=subprocess.DEVNULL)
+        if result.returncode == 0:
+            print(f'\nYour ping to {host} has been successful.')
+            break
+        elif result.returncode == 1:
+            print(f'\nYour ping to {host} has been unsuccessful. Moving to next host.')
+
+# Running 'apt-get update'
+
+def check_updates():
+    print('\nRunning \'apt-get update\'...')
+    resultNew = subprocess.run(['apt-get', 'update'])
+    if resultNew.returncode == 0:
+        print('Your packages have been successfully updated.')
+    else:
+        print(f'Packages have been unsuccessfully updated.')
+
+    print('\nRunning \'apt-get upgrade\'...')
+    resultNew2 = subprocess.run(['apt-get', 'upgrade', '-y'])
+    if resultNew2.returncode == 0:
+        print('Your packages have been successfully upgraded.')
+    else:
+        print(f'Packages have been unsuccessfully upgraded.')
+
+my_ping()
+check_updates()
